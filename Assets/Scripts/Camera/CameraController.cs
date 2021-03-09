@@ -12,5 +12,9 @@ public class CameraController : SingleBehaviour<CameraController>
         if (target == null) return;
         transform.position = Vector3.Lerp(transform.position, target.position + offset, 0.05f);
     }
+    public void FastFocus()
+    {
+        transform.position = target.position;
+    }
 
 }

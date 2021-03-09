@@ -6,9 +6,19 @@ public class LevelObject : MonoBehaviour
 {
     public static LevelObject currentLevel;
     public Transform nextlevelPoint;
+    public List<Evalator> allEvalators;
+    
 
     public Transform playerPoint;
     public int checkPoint;
+
+    public Evalator CurrentEvalator
+    {
+        get
+        {
+            return allEvalators[checkPoint];
+        }
+    }
 
     private void Awake()
     {

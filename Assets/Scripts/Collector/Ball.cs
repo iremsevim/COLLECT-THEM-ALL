@@ -11,6 +11,7 @@ public class Ball : MonoBehaviour
         if (isTouched) return;
         if(collision.gameObject.GetComponent<Evalator>())
         {
+            AudioManager.Instance.PlayAudio("ballhit");
             isTouched = true;
             collision.gameObject.GetComponent<Evalator>().TouchBall();
             ParticleManager.Instance.ShowParticle("explosion", transform.position);
@@ -23,6 +24,9 @@ public class Ball : MonoBehaviour
 
 
         }
-     
+        AudioManager.Instance.PlayAudio("ballhit");
+
+
+
     }
 }

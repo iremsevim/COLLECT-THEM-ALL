@@ -16,6 +16,7 @@ public class Evalator : MonoBehaviour
     public Transform topPivot;
     public bool isRising = false;
     public Transform barrierJoint;
+    public List<BallThrower> throwers;
     
     
 
@@ -23,18 +24,24 @@ public class Evalator : MonoBehaviour
     {
         collectedBall++;
         UpdateText();
-        if (isRising) return;
-        if(FinishControl())
+      
+        
+    }
+    public IEnumerator EvalatorControl()
+    {
+        if (isRising) yield break;
+        isRising = true;
+        yield return new WaitForSeconds(2f);
+        if (FinishControl())
         {
-
             RiseUp();
-            isRising = true;
+          
         }
-       else
+        else
         {
-            Debug.Log("ihtiyaç bitti");
-
+            GameManager.instance.GameOver();  
         }
+
     }
     private void UpdateText()
     {
@@ -43,16 +50,18 @@ public class Evalator : MonoBehaviour
     }
     private void RiseUp()
     {
-
+        Debug.Log("YÜKSELDİ");
         updownBorders.ForEach(x => x.SetActive(false));
         rightleftBorders.ForEach(x => x.GetComponent<Renderer>().material.color = GameData.Instance.generalData.groundborderColor);
         transform.DOMove(topPivot.position, 1f).OnComplete(()=> 
         {
             barrierJoint.DORotate(Vector3.zero, 1f).OnComplete(()=>
             {
-               
+                ParticleManager.Instance.ShowParticle("openlevel", barrierJoint.position);
+                AudioManager.Instance.PlayAudio("winafterlevel");
                 transform.GetComponent<Renderer>().material.color = GameData.Instance.generalData.groundColor;
                 LevelObject.currentLevel.DetectionCheckPoint();
+                throwers.ForEach(x => x.Interact());
 
             });
             

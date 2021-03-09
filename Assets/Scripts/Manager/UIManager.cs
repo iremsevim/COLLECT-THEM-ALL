@@ -11,6 +11,7 @@ public class UIManager : SingleBehaviour<UIManager>
     [Header("Playing Game")]
     public GameObject playingScreen;
     public List<Image> checkpointsImages;
+    public List<Text> levelnameTexts;
     [Header("Game Over")]
     public GameObject gameoverScreen;
     [Header("Game Complated")]
@@ -18,6 +19,7 @@ public class UIManager : SingleBehaviour<UIManager>
 
     public void StartToPlayingGame()
     {
+
         startScreen.SetActive(false);
         playingScreen.SetActive(true);
     }
@@ -31,6 +33,23 @@ public class UIManager : SingleBehaviour<UIManager>
         playingScreen.SetActive(false);
         gameComplatedScreen.SetActive(true);
     }
+
+    public void RestartGameUI()
+    {
+        gameoverScreen.SetActive(false);
+        gameComplatedScreen.SetActive(false);
+        playingScreen.SetActive(false);
+        startScreen.SetActive(true);
+        UpdateCheckPointImages();
+
+    }
+    public void UpdateLevelNameLabels()
+    {
+        levelnameTexts[0].text = GameManager.instance.runTime.currentLevel.ToString();
+        levelnameTexts[1].text = (GameManager.instance.runTime.currentLevel+1).ToString();
+    }
+   
+
     public void UpdateCheckPointImages()
     {
         checkpointsImages.ForEach(x => x.color = Color.white);
